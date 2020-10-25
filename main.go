@@ -11,7 +11,7 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
-var rowNum = map[string]int{"Key": 2, "Type": 1, "DataStart": 4}
+var rowNum = map[string]int{"Key": 2, "Type": 1, "DataStart": 4} // Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
 
 var excelMap = map[string][]string{}
 
