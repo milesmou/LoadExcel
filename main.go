@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -12,53 +11,64 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
-var outPath = map[string]string{"Data": "./out/Data.json", "Entity": "./out/Entity.ts"}
-
 var rowNum = map[string]int{"Key": 2, "Type": 1, "DataStart": 4}
 
-var excelList []string
+var excelMap = map[string][]string{}
 
 func walkFunc(path string, info os.FileInfo, err error) error {
 	if !info.IsDir() && (strings.Contains(path, "xls") || strings.Contains(path, "xlsx")) {
-		excelList = append(excelList, path)
+		fullDir := filepath.Dir(filepath.ToSlash(path))
+		_, dir := filepath.Split(fullDir)
+		if dir == "" {
+			dir = "default"
+		}
+		if excelMap[dir] == nil {
+			excelMap[dir] = []string{}
+		}
+		excelMap[dir] = append(excelMap[dir], path)
 	}
 	return nil
 }
 
 func main() {
-	dataResultMap := map[string]interface{}{}
-	entityHeader := "export interface IJsonData   {\n"
+	entityHeader := ""
 	entityResult := ""
 	currentDir, _ := os.Getwd()
 	filepath.Walk(currentDir, walkFunc)
-	for i := 0; i < len(excelList); i++ {
-		filePath := excelList[i]
-		index := strings.LastIndex(filePath, "\\")
-		if index == -1 {
-			index = strings.LastIndex(filePath, "/")
+	for outFileName, pathList := range excelMap {
+		dataResultMap := map[string]interface{}{}
+		entityHeader += "export interface " + strings.Title(outFileName) + "   {\n"
+		for _, path := range pathList {
+			dataMap, entityStr := readExcel(path)
+			entityResult += entityStr
+			for key, value := range dataMap {
+				dataResultMap[key] = value
+				entityHeader += ("    " + key + ": { [id: number]: " + key + " };\n")
+			}
 		}
-		fileName := filePath[index+1 : len(filePath)-len(path.Ext(filePath))]
-		dataMap, entityStr := readExcel(filePath, fileName)
-		dataResultMap[strings.Title(fileName)] = dataMap
-		entityResult += entityStr
-		entityHeader += ("    " + strings.Title(fileName) + ": { [id: number]: " + strings.Title(fileName) + " };\n")
+		dataResult, _ := json.Marshal(dataResultMap)
+		if dataResult != nil {
+			saveData(string(dataResult), currentDir+"\\out\\"+strings.Title(outFileName)+".json")
+		}
+		entityHeader += "}\n\n"
 	}
-	entityHeader += "}\n\n"
-	dataResult, _ := json.Marshal(dataResultMap)
-	if dataResult != nil {
-		saveData(string(dataResult), outPath["Data"])
-	}
-	saveData(entityHeader+entityResult, outPath["Entity"])
+	saveData(entityHeader+entityResult, currentDir+"\\out\\Entity.ts")
+	fmt.Println("按任意键退出")
+	fmt.Scanln()
 }
 
-func readExcel(path string, name string) (map[string]map[string]interface{}, string) {
+func readExcel(path string) (map[string]map[string]map[string]interface{}, string) {
 	file, err := excelize.OpenFile(path)
 	if err == nil {
 		keyArr := []string{}
 		typeArr := []string{}
-		obj := map[string]map[string]interface{}{}
+		obj := map[string]map[string]map[string]interface{}{}
+		entityStr := ""
 		sheetMap := file.GetSheetMap()
 		for _, sheetName := range sheetMap {
+			sheetKey := strings.Title(sheetName)
+			obj[sheetKey] = map[string]map[string]interface{}{}
+			subObj := obj[sheetKey]
 			rows := file.GetRows(sheetName)
 			for i, row := range rows {
 				for j, cellValue := range row {
@@ -70,20 +80,20 @@ func readExcel(path string, name string) (map[string]map[string]interface{}, str
 					}
 					if i >= rowNum["DataStart"] {
 						if j == 0 {
-							obj[cellValue] = map[string]interface{}{}
+							subObj[cellValue] = map[string]interface{}{}
 						}
-						obj[row[0]][keyArr[j]] = getValueByType(cellValue, typeArr[j])
+						subObj[row[0]][keyArr[j]] = getValueByType(cellValue, typeArr[j])
 					}
 				}
 			}
-		}
-		entityStr := "export interface " + strings.Title(name) + "  {\n"
-		if len(keyArr) == len(typeArr) {
-			for i := 0; i < len(keyArr); i++ {
-				entityStr += "    " + keyArr[i] + ": " + typeArr[i] + ";\n"
+			entityStr += "export interface " + sheetKey + "  {\n"
+			if len(keyArr) == len(typeArr) {
+				for i := 0; i < len(keyArr); i++ {
+					entityStr += "    " + keyArr[i] + ": " + typeArr[i] + ";\n"
+				}
 			}
+			entityStr += "}\n\n"
 		}
-		entityStr += "}\n\n"
 		return obj, entityStr
 	} else {
 		fmt.Println(err.Error())
@@ -99,47 +109,29 @@ func getValueByType(str string, typeStr string) interface{} {
 	if strings.Contains(typeStr, "boolean") {
 		if strings.Contains(typeStr, "[]") {
 			for _, v := range strArr {
-				if v == "0" {
-					arr = append(arr, false)
-				} else {
-					arr = append(arr, true)
-				}
+				arr = append(arr, IF(v == "1", true, false))
 			}
 		} else {
-			if str == "0" {
-				value = false
-			} else {
-				value = true
-			}
+			value = IF(value == "1", true, false)
 		}
 	} else if strings.Contains(typeStr, "number") {
 		if strings.Contains(typeStr, "[]") {
 			for _, v := range strArr {
-				if strings.Contains(v, ".") {
-					v2, _ := strconv.ParseFloat(v, 64)
-					arr = append(arr, v2)
-				} else {
-					v2, _ := strconv.ParseInt(v, 10, 64)
-					arr = append(arr, v2)
-				}
+				v1, _ := strconv.ParseFloat(v, 64)
+				arr = append(arr, v1)
 			}
 		} else {
-			if strings.Contains(str, ".") {
-				v, _ := strconv.ParseFloat(str, 64)
-				value = v
-			} else {
-				v, _ := strconv.ParseInt(str, 10, 64)
-				value = v
-			}
+			v1, _ := strconv.ParseFloat(str, 64)
+			value = v1
+		}
+	} else if typeStr == "string[]" {
+		for _, v := range strArr {
+			arr = append(arr, v)
 		}
 	} else {
 		value = str
 	}
-	if strings.Contains(typeStr, "[]") {
-		return arr
-	} else {
-		return value
-	}
+	return IF(strings.Contains(typeStr, "[]"), arr, value)
 }
 
 func saveData(result string, filePath string) {
@@ -156,7 +148,7 @@ func saveData(result string, filePath string) {
 }
 
 func checkFile(filePath string) {
-	dir := "./" + path.Dir(filePath)
+	dir := filepath.Dir(filePath)
 	_, err1 := os.Stat(dir)
 	if err1 != nil {
 		e := os.Mkdir(dir, os.ModeDir)
@@ -171,4 +163,11 @@ func checkFile(filePath string) {
 			fmt.Println(e.Error())
 		}
 	}
+}
+
+func IF(condition bool, whenTrue interface{}, whenFalse interface{}) interface{} {
+	if condition {
+		return whenTrue
+	}
+	return whenFalse
 }
