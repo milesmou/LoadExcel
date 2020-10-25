@@ -4,12 +4,12 @@
 一个导表工具，可以将Excel表导出为json数据，并同时导出数据表interface文件方便TypeScript环境使用。  
 
 #### 导出规则
-1、工具会检测当前目录及子目录所有Excel文件
-2、处于相同目录下的Excel表数据会导出在同一个Json文件
-3、每个Json文件以Excel表中Sheet名字进行数据区分，所以相同目录下的Excel文件中所有Sheet名字不能相同
+1、工具会检测当前目录及子目录所有Excel文件  
+2、处于相同目录下的Excel表数据会导出在同一个Json文件  
+3、每个Json文件以Excel表中Sheet名字进行数据区分，所以相同目录下的Excel文件中所有Sheet名字不能相同  
 
 #### 环境
-go
+go in go mod
 
 #### 说明
 1、脚本会将所有的Excel表数据导出在一个json文件中，并以Excel文件名区分。  
