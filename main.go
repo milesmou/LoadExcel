@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -46,13 +47,18 @@ func main() {
 				entityHeader += ("    " + key + ": { [id: number]: " + key + " };\n")
 			}
 		}
-		dataResult, _ := json.Marshal(dataResultMap)
-		if dataResult != nil {
-			saveData(string(dataResult), currentDir+"\\out\\"+strings.Title(outFileName)+".json")
+		byteBuf := bytes.NewBuffer([]byte{})
+		encoder := json.NewEncoder(byteBuf)
+		encoder.SetEscapeHTML(false)
+		err := encoder.Encode(dataResultMap)
+		if err == nil {
+			saveData(byteBuf.String(), currentDir+"\\out\\"+strings.Title(outFileName)+".json")
+		} else {
+			fmt.Println(err.Error())
 		}
 		entityHeader += "}\n\n"
 	}
-	saveData(entityHeader+entityResult, currentDir+"\\out\\Entity.ts")
+	saveData(entityHeader+entityResult, currentDir+"\\out\\DataEntity.ts")
 	fmt.Println("按任意键退出")
 	fmt.Scanln()
 }
@@ -82,6 +88,9 @@ func readExcel(path string) (map[string]map[string]map[string]interface{}, strin
 						if j == 0 {
 							subObj[cellValue] = map[string]interface{}{}
 						}
+						if typeArr[j] == "none" || typeArr[j] == "" {
+							continue
+						}
 						subObj[row[0]][keyArr[j]] = getValueByType(cellValue, typeArr[j])
 					}
 				}
@@ -89,6 +98,9 @@ func readExcel(path string) (map[string]map[string]map[string]interface{}, strin
 			entityStr += "export interface " + sheetKey + "  {\n"
 			if len(keyArr) == len(typeArr) {
 				for i := 0; i < len(keyArr); i++ {
+					if typeArr[i] == "none" || typeArr[i] == "" {
+						continue
+					}
 					entityStr += "    " + keyArr[i] + ": " + typeArr[i] + ";\n"
 				}
 			}
