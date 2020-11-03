@@ -14,19 +14,14 @@ import (
 
 var rowNum = map[string]int{"Key": 2, "Type": 1, "DataStart": 4} // Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
 
-var excelMap = map[string][]string{}
+var excelMap = map[string]string{}
 
 func walkFunc(path string, info os.FileInfo, err error) error {
 	if !info.IsDir() && (strings.Contains(path, "xls") || strings.Contains(path, "xlsx")) {
-		fullDir := filepath.Dir(filepath.ToSlash(path))
-		_, dir := filepath.Split(fullDir)
-		if dir == "" {
-			dir = "default"
-		}
-		if excelMap[dir] == nil {
-			excelMap[dir] = []string{}
-		}
-		excelMap[dir] = append(excelMap[dir], path)
+		base := filepath.Base(filepath.ToSlash(path))
+		ext := filepath.Ext(filepath.ToSlash(path))
+		name := strings.Title(strings.ReplaceAll(base, ext, ""))
+		excelMap[name] = filepath.ToSlash(path)
 	}
 	return nil
 }
@@ -35,43 +30,41 @@ func main() {
 	entityHeader := ""
 	entityResult := ""
 	currentDir, _ := os.Getwd()
+	os.RemoveAll(currentDir + "\\out\\")
 	filepath.Walk(currentDir, walkFunc)
-	for outFileName, pathList := range excelMap {
+	for name, path := range excelMap {
 		dataResultMap := map[string]interface{}{}
-		entityHeader += "export interface " + strings.Title(outFileName) + "   {\n"
-		for _, path := range pathList {
-			dataMap, entityStr := readExcel(path)
-			entityResult += entityStr
-			for key, value := range dataMap {
-				dataResultMap[key] = value
-				entityHeader += ("    " + key + ": { [id: number]: " + key + " };\n")
-			}
+		entityHeader += "export interface " + name + "   {\n"
+		dataMap, entityStr := readExcel(path)
+		entityResult += entityStr
+		for key, value := range dataMap {
+			dataResultMap[key] = value
+			entityHeader += ("    " + key + ": { [id: number]: " + key + " };\n")
 		}
 		byteBuf := bytes.NewBuffer([]byte{})
 		encoder := json.NewEncoder(byteBuf)
 		encoder.SetEscapeHTML(false)
 		err := encoder.Encode(dataResultMap)
 		if err == nil {
-			saveData(byteBuf.String(), currentDir+"\\out\\"+strings.Title(outFileName)+".json")
+			saveData(byteBuf.String(), currentDir+"\\out\\"+name+".json")
 		} else {
 			fmt.Println(err.Error())
 		}
 		entityHeader += "}\n\n"
 	}
 	saveData(entityHeader+entityResult, currentDir+"\\out\\DataEntity.ts")
-	fmt.Println("按任意键退出")
-	fmt.Scanln()
+	fmt.Println("Over")
 }
 
 func readExcel(path string) (map[string]map[string]map[string]interface{}, string) {
 	file, err := excelize.OpenFile(path)
 	if err == nil {
-		keyArr := []string{}
-		typeArr := []string{}
 		obj := map[string]map[string]map[string]interface{}{}
 		entityStr := ""
 		sheetMap := file.GetSheetMap()
 		for _, sheetName := range sheetMap {
+			keyArr := []string{}
+			typeArr := []string{}
 			sheetKey := strings.Title(sheetName)
 			obj[sheetKey] = map[string]map[string]interface{}{}
 			subObj := obj[sheetKey]
@@ -97,11 +90,12 @@ func readExcel(path string) (map[string]map[string]map[string]interface{}, strin
 			}
 			entityStr += "export interface " + sheetKey + "  {\n"
 			if len(keyArr) == len(typeArr) {
-				for i := 0; i < len(keyArr); i++ {
-					if typeArr[i] == "none" || typeArr[i] == "" {
+				for k, v := range typeArr {
+					if v == "none" || v == "" {
 						continue
 					}
-					entityStr += "    " + keyArr[i] + ": " + typeArr[i] + ";\n"
+					entityStr += "    " + keyArr[k] + ": " + typeArr[k] + ";\n"
+
 				}
 			}
 			entityStr += "}\n\n"
@@ -167,6 +161,8 @@ func checkFile(filePath string) {
 		if e != nil {
 			fmt.Println(e.Error())
 		}
+	} else {
+
 	}
 	_, err2 := os.Stat(filePath)
 	if err2 != nil {
