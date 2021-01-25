@@ -14,7 +14,7 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
-var rowNum = map[string]int{"Key": 0, "TypeTS": 1, "TypeCS": 2, "DataStart": 4} // Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
+var rowNum = map[string]int{"Key": 0, "TypeTS": 1, "TypeCS": 2, "DataStart": 4} // Key:字段key所在行 TypeTS:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
 
 var excelMap = map[string]string{}
 
@@ -33,10 +33,11 @@ func main() {
 	entityResultTS := ""
 	entityHeaderCS := "using System.Collections;\nusing System.Collections.Generic;\n\n"
 	entityResultCS := ""
-	currentDir, _ := os.Getwd()
+	currentDir := getCurrentDir()
 	outPath := currentDir + "/out/"
 	os.RemoveAll(outPath)
 	filepath.Walk(currentDir, walkFunc)
+	fmt.Println("当前路径=" + currentDir)
 	for name, path := range excelMap {
 		dataResultMap := map[string]interface{}{}
 		entityHeaderTS += "export interface " + name + "   {\n"
@@ -61,8 +62,12 @@ func main() {
 		entityHeaderTS += "}\n\n"
 		entityHeaderCS += "}\n\n"
 	}
-	saveData(entityHeaderTS+entityResultTS, outPath+"DataEntity.ts")
-	saveData(entityHeaderCS+entityResultCS, outPath+"DataEntity.cs")
+	if rowNum["TypeTS"] > 0 {
+		saveData(entityHeaderTS+entityResultTS, outPath+"DataEntity.ts")
+	}
+	if rowNum["TypeCS"] > 0 {
+		saveData(entityHeaderCS+entityResultCS, outPath+"DataEntity.cs")
+	}
 	fmt.Println("Over")
 }
 
@@ -99,7 +104,7 @@ func readExcel(path string) (map[string]map[string]map[string]interface{}, strin
 						if typeArrTS[j] == "none" {
 							continue
 						}
-						if typeArrTS[j] != "" || typeArrCS[j] != "" {
+						if typeArrTS[j] != "" {
 							subObj[row[0]][keyArr[j]] = getValueByType(cellValue, typeArrTS[j])
 						}
 					}
@@ -112,7 +117,6 @@ func readExcel(path string) (map[string]map[string]map[string]interface{}, strin
 						continue
 					}
 					entityStrTS += "    " + keyArr[k] + ": " + typeArrTS[k] + ";\n"
-
 				}
 			}
 			entityStrTS += "}\n\n"
@@ -123,7 +127,6 @@ func readExcel(path string) (map[string]map[string]map[string]interface{}, strin
 						continue
 					}
 					entityStrCS += "    public " + typeArrCS[k] + " " + keyArr[k] + ";\n"
-
 				}
 			}
 			entityStrCS += "}\n\n"
@@ -207,6 +210,16 @@ func checkFile(filePath string) {
 			fmt.Println(err2.Error())
 		}
 	}
+}
+
+func getCurrentDir() string {
+	ex, _ := os.Executable()
+	exPath := filepath.Dir(ex)
+	if strings.Contains(exPath, "go-build") {
+		currentDir, _ := os.Getwd()
+		return currentDir
+	}
+	return exPath
 }
 
 func IF(condition bool, whenTrue interface{}, whenFalse interface{}) interface{} {

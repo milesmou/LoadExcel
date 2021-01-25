@@ -9,8 +9,8 @@ public class Test1
 
 public class Test2   
 {
-    public Dictionary<string,Test2_001> Test2_001;
     public Dictionary<string,Test2_002> Test2_002;
+    public Dictionary<string,Test2_001> Test2_001;
 }
 
 public class Test1_001  
