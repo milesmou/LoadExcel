@@ -1,11 +1,11 @@
 export interface Test1   {
-    Test1_001: { [id: number]: Test1_001 };
-    Test1_002: { [id: number]: Test1_002 };
+    Test1_002: { [id: string]: Test1_002 };
+    Test1_001: { [id: string]: Test1_001 };
 }
 
 export interface Test2   {
-    Test2_002: { [id: number]: Test2_002 };
-    Test2_001: { [id: number]: Test2_001 };
+    Test2_002: { [id: string]: Test2_002 };
+    Test2_001: { [id: string]: Test2_001 };
 }
 
 export interface Test1_001  {
