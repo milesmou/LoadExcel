@@ -1,4 +1,5 @@
 #!/bin/bash
+# 使用脚本可以将json和ts,cs文件复制到指定目录
 
 jsonPath=../assets/resources/data/
 entityPath=../assets/script/game/
