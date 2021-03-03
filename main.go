@@ -3,6 +3,7 @@ package main
 //mac下构建windows命令：GOOS=windows GOARCH=amd64 go build
 
 import (
+	"LoadExcel/loadts"
 	"fmt"
 
 	"os"
@@ -19,7 +20,7 @@ func main() {
 	os.RemoveAll(outPath)
 	filepath.Walk(currentDir, walkFunc)
 	//LoadTS
-	// loadts.Load(excelMap, outPath)
+	loadts.Load(excelMap, outPath)
 	//LoadCS
 	// loadcs.Load(excelMap, outPath)
 	fmt.Println("Over")
