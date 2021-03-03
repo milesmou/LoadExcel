@@ -3,8 +3,6 @@ package main
 //mac下构建windows命令：GOOS=windows GOARCH=amd64 go build
 
 import (
-	"fmt"
-
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,7 +20,7 @@ func main() {
 	// loadts.Load(excelMap, outPath)
 	//LoadCS
 	// loadcs.Load(excelMap, outPath)
-	fmt.Println("Over")
+
 }
 
 func getCurrentDir() string {
