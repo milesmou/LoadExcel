@@ -12,7 +12,7 @@ import (
 	"LoadExcel/utils"
 )
 
-var rowNum = map[string]int{"Key": 0, "Type": 1, "DataStart": 4} // Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
+var rowNum = map[string]int{"Key": 0, "Type": 1, "DataStart": 2} // Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
 //Excel中的Type支持number、boolean、string以及对应的数组类型
 
 func Load(excelMap map[string]string, outPath string) {
