@@ -6,7 +6,7 @@ import LoadToCS
 import os
 
 excelDict: dict = {}
-outPath: str = os.getcwd()+os.path.sep+"Out"+os.path.sep
+outPath: str = os.getcwd()+os.path.sep+"out"+os.path.sep
 
 
 def initExcelDict():
