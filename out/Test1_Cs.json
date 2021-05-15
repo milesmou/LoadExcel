@@ -1,17 +1,5 @@
 {
-    "Test2_001": {
-        "0": {
-            "ID": 0,
-            "NameID": "<color='red'></color>",
-            "QuestType": 2,
-            "ItemID": 201,
-            "ItemCount": false,
-            "rate": [
-                false,
-                false,
-                false
-            ]
-        },
+    "Test1_001": {
         "1": {
             "ID": 1,
             "NameID": "第2天",
@@ -85,19 +73,7 @@
             ]
         }
     },
-    "Test2_002": {
-        "0": {
-            "ID": 0,
-            "NameID": "第1天",
-            "QuestType": 2,
-            "ItemID": 201,
-            "ItemCount": false,
-            "rate": [
-                false,
-                false,
-                false
-            ]
-        },
+    "Test1_002": {
         "1": {
             "ID": 1,
             "NameID": "第2天",

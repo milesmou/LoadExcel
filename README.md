@@ -4,7 +4,7 @@
 一个导表工具，可以将Excel表导出为json数据，并同时导出数据表interface文件方便TypeScript和C#环境使用。 
 
 #### 环境
-go in go mod
+python3 + xlrd1.2.0
 
 #### 说明
 1、工具会检测当前目录及子目录所有Excel文件，Excel文件完整路径名包含～的Excel文件会被忽略

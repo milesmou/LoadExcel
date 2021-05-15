@@ -1,11 +1,6 @@
-export interface Test2_ts   {
-    Test2_001: { [id: number]: Test2_001 };
-    Test2_002: { [id: number]: Test2_002 };
-}
-
-export interface ~Test1_cs   {
-    Test1_001: { [id: number]: Test1_001 };
-    Test1_002: { [id: number]: Test1_002 };
+export interface Test2_Ts   {
+    Test2_001: { [id: string]: Test2_001 };
+    Test2_002: { [id: string]: Test2_002 };
 }
 
 export interface Test2_001  {
@@ -24,23 +19,5 @@ export interface Test2_002  {
     ItemID: number;
     ItemCount: boolean;
     rate: boolean[];
-}
-
-export interface Test1_001  {
-    ID: int;
-    NameID: string;
-    QuestType: int;
-    ItemID: int;
-    ItemCount: bool;
-    rate: bool[];
-}
-
-export interface Test1_002  {
-    ID: int;
-    NameID: string;
-    QuestType: int;
-    ItemID: int;
-    ItemCount: bool;
-    rate: bool[];
 }
 
