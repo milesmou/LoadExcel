@@ -1,16 +1,15 @@
-#!/usr/bin/python3
-
 import LoadToTS
 import LoadToCS
 
 import os
+import sys
 
 excelDict: dict = {}
 outPath: str = os.getcwd()+os.path.sep+"out"+os.path.sep
 
 
-def initExcelDict():
-    for path, listDir, listFile in os.walk(os.getcwd()):
+def initExcelDict(currPath):
+    for path, listDir, listFile in os.walk(currPath):
         for file in listFile:
             if file.find("~") == -1:  # 排除Excel运行时的临时文件
                 fileName: str = os.path.splitext(file)[0]
@@ -38,6 +37,16 @@ def IF(condition: bool, trueResult, falseResult):
 
 
 if __name__ == "__main__":
-    initExcelDict()
-    # LoadToTS.Load(excelDict)
-    LoadToCS.Load(excelDict)
+    currPath = sys.argv[0], os.path.dirname(sys.argv[0])
+    print("当前目录", currPath)
+    initExcelDict(currPath)
+    if(len(sys.argv) >= 2):
+        if(sys.argv[1] == "ts"):
+            LoadToTS.Load(excelDict)
+        elif(sys.argv[1] == "cs"):
+            LoadToCS.Load(excelDict)
+        else:
+            print("参数错误 只支持ts或cs")
+    else:
+        print("请输入参数ts或cs确定entity类型")
+    input("Over")

@@ -1,5 +1,3 @@
-from os import fork, name
-
 import LoadExcel
 from xlrd.sheet import Sheet
 import xlrd
