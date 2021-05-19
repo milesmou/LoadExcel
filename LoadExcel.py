@@ -39,15 +39,18 @@ def IF(condition: bool, trueResult, falseResult):
 
 if __name__ == "__main__":
     currPath = os.path.dirname(sys.argv[0])
-    print("path="+currPath)
+    print("Path="+currPath+"\n")
     initExcelDict(currPath)
-    if(len(sys.argv) >= 2):
-        if(sys.argv[1] == "ts"):
-            LoadToTS.Load(excelDict)
-        elif(sys.argv[1] == "cs"):
-            LoadToCS.Load(excelDict)
+    if(len(excelDict)>0):
+        if(len(sys.argv) >= 2):
+            if(sys.argv[1] == "ts"):
+                LoadToTS.Load(excelDict)
+            elif(sys.argv[1] == "cs"):
+                LoadToCS.Load(excelDict)
+            else:
+                print("参数错误 只支持ts或cs")
         else:
-            print("参数错误 只支持ts或cs")
+            print("请输入参数ts或cs确定entity类型")
     else:
-        print("请输入参数ts或cs确定entity类型")
-    input("Over")
+        print("当前目录及其子目录未找到Excel文件")  
+    input("\nOver")
