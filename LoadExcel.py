@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import LoadToTS
 import LoadToCS
 
@@ -37,8 +38,8 @@ def IF(condition: bool, trueResult, falseResult):
 
 
 if __name__ == "__main__":
-    currPath = sys.argv[0], os.path.dirname(sys.argv[0])
-    print("当前目录", currPath)
+    currPath = os.path.dirname(sys.argv[0])
+    print("path="+currPath)
     initExcelDict(currPath)
     if(len(sys.argv) >= 2):
         if(sys.argv[1] == "ts"):

@@ -1,5 +1,5 @@
 @REM 使用脚本可以将json和ts,cs文件复制到指定目录
-LoadExcel.exe
+LoadExcel.exe ts[cs]
 @set jsonPath=..\assets\resources\data\
 @set entityPath=..\assets\script\game\
 @for /R ./out %%f in (*.json) do ( 
