@@ -4,7 +4,7 @@ import xlrd
 import json
 
 # Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
-rowNum = {"Key": 0, "Type": 1, "DataStart": 3}
+rowNum = {"Key": 0, "Type": 1, "DataStart": 4}
 
 
 def Load(excelDict: dict):
@@ -17,11 +17,9 @@ def Load(excelDict: dict):
         entityResult += wbResult["entityStr"]
         for key in wbResult["wbDict"]:
             dataResult[key] = wbResult["wbDict"][key]
-            entityHeader += ("    public Dictionary<string," +
-                             key + "> " + key + ";\n")
+            entityHeader += ("    public Dictionary<string," + key + "> " + key + ";\n")
         entityHeader += "}\n\n"
-        LoadExcel.saveData(json.dumps(
-            dataResult, ensure_ascii=False), name+".json")
+        LoadExcel.saveData(json.dumps(dataResult, ensure_ascii=False), name+".json")
     LoadExcel.saveData(entityHeader+entityResult, "DataEntity.cs")
 
 
@@ -31,6 +29,7 @@ def readExcel(path: str):
         entityStr: str = ""
         sheetNames = workbook.sheet_names()
         for sheetName in sheetNames:
+            print("load sheet "+sheetName+" start")
             wbDict[str.title(sheetName)] = {}
             sheetDict = wbDict[str.title(sheetName)]
             keyList: list = []
@@ -59,9 +58,9 @@ def readExcel(path: str):
                     v = typeList[i]
                     if v == "none" or v == "":
                         continue
-                    entityStr += "    public " + \
-                        typeList[i] + " " + keyList[i] + ";\n"
+                    entityStr += "    public " + typeList[i] + " " + keyList[i] + ";\n"
                 entityStr += "}\n\n"
+            print("load sheet "+sheetName+" end")
         return {"entityStr": entityStr, "wbDict": wbDict}
 
 
@@ -80,11 +79,16 @@ def getValueByType(cellV: str, typeStr: str):
     elif typeStr.find("int") > -1 or typeStr.find("float") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:
-                arr.append(LoadExcel.IF(typeStr.find(
-                    "float") > -1, float(v), int(v)))
+                try:
+                    arr.append(LoadExcel.IF(typeStr.find("float") > -1, float(v), int(v)))
+                except Exception:
+                    arr.append(0)
         else:
-            value = LoadExcel.IF(typeStr.find(
-                "float") > -1, float(cellV), int(cellV))
+            try:
+                value = LoadExcel.IF(typeStr.find("float") > -1, float(cellV), int(cellV))
+            except Exception:
+                value = 0
+
     elif typeStr.find("string") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:

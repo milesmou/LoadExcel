@@ -4,7 +4,7 @@
 jsonPath=../assets/resources/data/
 entityPath=../assets/script/game/
 
-./LoadExcel ts[cs]
+./LoadExcel ts
 
 files=$(ls ./out)
 for filename in $files; do

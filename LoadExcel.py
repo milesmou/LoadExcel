@@ -39,7 +39,7 @@ def IF(condition: bool, trueResult, falseResult):
 
 if __name__ == "__main__":
     currPath = os.path.dirname(sys.argv[0])
-    print("Path="+currPath+"\n")
+    print("load path : "+currPath)
     initExcelDict(currPath)
     if(len(excelDict)>0):
         if(len(sys.argv) >= 2):
@@ -52,5 +52,4 @@ if __name__ == "__main__":
         else:
             print("请输入参数ts或cs确定entity类型")
     else:
-        print("当前目录及其子目录未找到Excel文件")  
-    input("\nOver")
+        print("当前目录及其子目录未找到Excel文件")

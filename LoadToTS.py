@@ -4,7 +4,8 @@ import xlrd
 import json
 
 # Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
-rowNum = {"Key": 0, "Type": 1, "DataStart": 3}
+rowNum = {"Key": 0, "Type": 1, "DataStart": 4}
+
 
 def Load(excelDict: dict):
     entityHeader: str = ""
@@ -16,11 +17,9 @@ def Load(excelDict: dict):
         entityResult += wbResult["entityStr"]
         for key in wbResult["wbDict"]:
             dataResult[key] = wbResult["wbDict"][key]
-            entityHeader += ("    " + key +
-                             ": { [id: string]: " + key + " };\n")
+            entityHeader += ("    " + key + ": { [id: string]: " + key + " };\n")
         entityHeader += "}\n\n"
-        LoadExcel.saveData(json.dumps(
-            dataResult, ensure_ascii=False), name+".json")
+        LoadExcel.saveData(json.dumps(dataResult, ensure_ascii=False), name+".json")
     LoadExcel.saveData(entityHeader+entityResult, "DataEntity.ts")
 
 
@@ -30,6 +29,7 @@ def readExcel(path: str):
         entityStr: str = ""
         sheetNames = workbook.sheet_names()
         for sheetName in sheetNames:
+            print("load sheet "+sheetName+" start")
             wbDict[str.title(sheetName)] = {}
             sheetDict = wbDict[str.title(sheetName)]
             keyList: list = []
@@ -50,17 +50,16 @@ def readExcel(path: str):
                             idStr = cellV
                         if typeList[col] == "none" or typeList[col] == "":
                             continue
-                        sheetDict[idStr][keyList[col]] = getValueByType(
-                            cellV, typeList[col])
+                        sheetDict[idStr][keyList[col]] = getValueByType(cellV, typeList[col])
             entityStr += "export interface " + str.title(sheetName) + "  {\n"
             if len(keyList) == len(typeList):
                 for i in range(len(typeList)):
                     v = typeList[i]
                     if v == "none" or v == "":
                         continue
-                    entityStr += "    " + \
-                        keyList[i] + ": " + typeList[i] + ";\n"
+                    entityStr += "    " + keyList[i] + ": " + typeList[i] + ";\n"
                 entityStr += "}\n\n"
+            print("load sheet "+sheetName+" end")
         return {"entityStr": entityStr, "wbDict": wbDict}
 
 
@@ -79,10 +78,15 @@ def getValueByType(cellV: str, typeStr: str):
     elif typeStr.find("number") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:
-                arr.append(LoadExcel.IF(v.find(".") > -1, float(v), int(v)))
+                try:
+                    arr.append(LoadExcel.IF(v.find(".") > -1, float(v), int(v)))
+                except Exception:
+                    arr.append(0)
         else:
-            value = LoadExcel.IF(cellV.find(".") > -1,
-                                 float(cellV), int(cellV))
+            try:
+                value = LoadExcel.IF(cellV.find(".") > -1, float(cellV), int(cellV))
+            except Exception:
+                value = 0
     elif typeStr.find("string") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:
