@@ -22,12 +22,21 @@ def initExcelDict(currPath):
 def saveData(content: str, fileName: str):
     if not os.path.exists(outPath):
         os.makedirs(outPath)
-    with open(outPath+fileName, 'w') as fileIO:
+    with open(outPath+fileName, 'w', encoding="utf-8") as fileIO:
         fileIO.truncate()
         fileIO.write(content)
         fileIO.flush()
         fileIO.close()
         print("数据已保存到->"+outPath+fileName)
+
+
+def upperFirst(text: str):
+    result = ""
+    if(text != None and len(text) > 0):
+        result = text[0].upper()
+        if(len(text) > 1):
+            result += text[1:]
+    return result
 
 
 def IF(condition: bool, trueResult, falseResult):
@@ -41,7 +50,7 @@ if __name__ == "__main__":
     currPath = os.path.dirname(sys.argv[0])
     print("load path : "+currPath)
     initExcelDict(currPath)
-    if(len(excelDict)>0):
+    if(len(excelDict) > 0):
         if(len(sys.argv) >= 2):
             if(sys.argv[1] == "ts"):
                 LoadToTS.Load(excelDict)

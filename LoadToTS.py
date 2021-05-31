@@ -4,7 +4,7 @@ import xlrd
 import json
 
 # Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
-rowNum = {"Key": 0, "Type": 1, "DataStart": 4}
+rowNum = {"Key": 2, "Type": 1, "DataStart": 4}
 
 
 def Load(excelDict: dict):
@@ -30,8 +30,9 @@ def readExcel(path: str):
         sheetNames = workbook.sheet_names()
         for sheetName in sheetNames:
             print("load sheet "+sheetName+" start")
-            wbDict[str.title(sheetName)] = {}
-            sheetDict = wbDict[str.title(sheetName)]
+            sName = LoadExcel.upperFirst(sheetName)
+            wbDict[sName] = {}
+            sheetDict = wbDict[sName]
             keyList: list = []
             typeList: list = []
             sheet: Sheet = workbook.sheet_by_name(sheetName)
@@ -51,7 +52,7 @@ def readExcel(path: str):
                         if typeList[col] == "none" or typeList[col] == "":
                             continue
                         sheetDict[idStr][keyList[col]] = getValueByType(cellV, typeList[col])
-            entityStr += "export interface " + str.title(sheetName) + "  {\n"
+            entityStr += "export interface " + sName + "  {\n"
             if len(keyList) == len(typeList):
                 for i in range(len(typeList)):
                     v = typeList[i]
