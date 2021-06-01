@@ -16,7 +16,7 @@ def initExcelDict(currPath):
                 fileName: str = os.path.splitext(file)[0]
                 fileExt: str = os.path.splitext(file)[-1]
                 if fileExt == ".xls" or fileExt == ".xlsx":
-                    excelDict[fileName.title()] = path+os.path.sep+file
+                    excelDict[upperFirst(fileName)] = path+os.path.sep+file
 
 
 def saveData(content: str, fileName: str):
