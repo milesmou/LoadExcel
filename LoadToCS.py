@@ -38,8 +38,7 @@ def readExcel(path: str):
             for row in range(sheet.nrows):
                 idStr = ""
                 for col in range(sheet.ncols):
-                    cellV = str(sheet.cell_value(row, col)).rstrip("0")
-                    cellV = cellV.rstrip(".")
+                    cellV = str(sheet.cell_value(row, col))
                     if row == rowNum["Key"]:
                         keyList.insert(col, cellV)
                     if row == rowNum["Type"]:
