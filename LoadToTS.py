@@ -45,8 +45,6 @@ def readExcel(path: str):
                     if row == rowNum["Type"]:
                         typeList.insert(col, cellV)
                     if row >= rowNum["DataStart"]:
-                        if col==6 or col==2:
-                            print(cellV)
                         if col == 0:
                             sheetDict[str(cellV)] = {}
                             idStr = cellV
