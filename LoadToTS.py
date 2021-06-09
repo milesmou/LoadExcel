@@ -39,7 +39,11 @@ def readExcel(path: str):
             for row in range(sheet.nrows):
                 idStr = ""
                 for col in range(sheet.ncols):
-                    cellV = str(sheet.cell_value(row, col))
+                    cellV = sheet.cell_value(row, col)
+                    cellType = sheet.cell_type(row, col)
+                    if(cellType == 2 and cellV % 1 == 0.0):
+                        cellV = int(cellV)
+                    cellV = str(cellV)
                     if row == rowNum["Key"]:
                         keyList.insert(col, cellV)
                     if row == rowNum["Type"]:
@@ -79,12 +83,12 @@ def getValueByType(cellV: str, typeStr: str):
         if typeStr.find("[]") > -1:
             for v in strList:
                 try:
-                    arr.append(LoadExcel.IF(v.endswith(".0") > -1, int(v), float(v)))
+                    arr.append(LoadExcel.IF(v.find(".") > -1, float(v), int(v)))
                 except Exception:
                     arr.append(0)
         else:
             try:
-                value = LoadExcel.IF(cellV.find(".0") > -1, int(cellV), float(cellV))
+                value = LoadExcel.IF(cellV.find(".") > -1, float(cellV), int(cellV))
             except Exception:
                 value = 0
     elif typeStr.find("string") > -1:

@@ -1,10 +1,10 @@
 {
     "Test2_001": {
-        "0.0": {
+        "0": {
             "ID": 0,
             "NameID": "第1天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 2,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -13,11 +13,11 @@
             ],
             "text": "..."
         },
-        "1.0": {
-            "ID": 0,
+        "1": {
+            "ID": 1,
             "NameID": "第2天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -26,11 +26,11 @@
             ],
             "text": "charator_50"
         },
-        "2.0": {
-            "ID": 0,
+        "2": {
+            "ID": 2,
             "NameID": "第3天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -39,11 +39,11 @@
             ],
             "text": "charator_51"
         },
-        "3.0": {
-            "ID": 0,
+        "3": {
+            "ID": 3,
             "NameID": "第4天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -52,11 +52,11 @@
             ],
             "text": "charator_52"
         },
-        "4.0": {
-            "ID": 0,
+        "4": {
+            "ID": 4,
             "NameID": "第5天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -65,11 +65,11 @@
             ],
             "text": "charator_53"
         },
-        "5.0": {
-            "ID": 0,
+        "5": {
+            "ID": 5,
             "NameID": "第6天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -78,11 +78,11 @@
             ],
             "text": "charator_54"
         },
-        "6.0": {
-            "ID": 0,
+        "6": {
+            "ID": 6,
             "NameID": "第7天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -93,11 +93,11 @@
         }
     },
     "Test2_002": {
-        "0.0": {
+        "0": {
             "ID": 0,
             "NameID": "第1天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 2,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -105,11 +105,11 @@
                 false
             ]
         },
-        "1.0": {
-            "ID": 0,
+        "1": {
+            "ID": 1,
             "NameID": "第2天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -117,11 +117,11 @@
                 false
             ]
         },
-        "2.0": {
-            "ID": 0,
+        "2": {
+            "ID": 2,
             "NameID": "第3天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -129,11 +129,11 @@
                 false
             ]
         },
-        "3.0": {
-            "ID": 0,
+        "3": {
+            "ID": 3,
             "NameID": "第4天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -141,11 +141,11 @@
                 false
             ]
         },
-        "4.0": {
-            "ID": 0,
+        "4": {
+            "ID": 4,
             "NameID": "第5天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -153,11 +153,11 @@
                 false
             ]
         },
-        "5.0": {
-            "ID": 0,
+        "5": {
+            "ID": 5,
             "NameID": "第6天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
@@ -165,11 +165,11 @@
                 false
             ]
         },
-        "6.0": {
-            "ID": 0,
+        "6": {
+            "ID": 6,
             "NameID": "第7天",
-            "QuestType": 0,
-            "ItemID": 0,
+            "QuestType": 7,
+            "ItemID": 201,
             "ItemCount": false,
             "rate": [
                 false,
