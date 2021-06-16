@@ -6,6 +6,7 @@ import json
 # Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
 rowNum = {"Key": 2, "Type": 1, "DataStart": 4}
 
+
 def Load(excelDict: dict):
     entityHeader: str = "using System.Collections;\nusing System.Collections.Generic;\n\n"
     entityResult: str = ""
@@ -82,16 +83,9 @@ def getValueByType(cellV: str, typeStr: str):
     elif typeStr.find("int") > -1 or typeStr.find("float") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:
-                try:
-                    arr.append(LoadExcel.IF(typeStr.find("float") > -1, float(v), int(v)))
-                except Exception:
-                    arr.append(0)
+                arr.append(LoadExcel.IF(typeStr.find("float") > -1, LoadExcel.parseFloat(v), LoadExcel.parseInteger(v)))
         else:
-            try:
-                value = LoadExcel.IF(typeStr.find("float") > -1, float(cellV), int(cellV))
-            except Exception:
-                value = 0
-
+            value = LoadExcel.IF(typeStr.find("float") > -1, LoadExcel.parseFloat(cellV), LoadExcel.parseInteger(cellV))
     elif typeStr.find("string") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:

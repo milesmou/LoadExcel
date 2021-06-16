@@ -39,6 +39,33 @@ def upperFirst(text: str):
     return result
 
 
+def parseNumber(text: str):
+    if(text.find(".") > -1):
+        return parseFloat(text)
+    else:
+        return parseInteger(text)
+
+
+def parseInteger(text: str):
+    value = 0
+    try:
+        if(text.find(".") > -1):
+            text = text[:text.find(".")]
+        value = int(text)
+    except Exception as e:
+        value = 0
+    return value
+
+
+def parseFloat(text: str):
+    value = 0.0
+    try:
+        value = float(text)
+    except Exception as e:
+        print(e)
+    return value
+
+
 def IF(condition: bool, trueResult, falseResult):
     if condition:
         return trueResult
