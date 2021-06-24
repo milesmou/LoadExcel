@@ -82,10 +82,11 @@ def getValueByType(cellV: str, typeStr: str):
     elif typeStr.find("number") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:
-                arr.append(LoadExcel.parseNumber(v))
+                if(v != ""):
+                    arr.append(LoadExcel.parseNumber(v))
         else:
             value = LoadExcel.parseNumber(cellV)
-    
+
     elif typeStr.find("string") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:

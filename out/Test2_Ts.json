@@ -4,7 +4,7 @@
             "ID": 0,
             "NameID": "第1天",
             "QuestType": -2,
-            "ItemID": 201,
+            "ItemID": [],
             "ItemCount": false,
             "rate": [
                 false,
@@ -17,7 +17,7 @@
             "ID": 1,
             "NameID": "第2天",
             "QuestType": 7.5,
-            "ItemID": 201,
+            "ItemID": [],
             "ItemCount": false,
             "rate": [
                 false,
@@ -30,7 +30,9 @@
             "ID": 2,
             "NameID": "第3天",
             "QuestType": 7,
-            "ItemID": 201,
+            "ItemID": [
+                201
+            ],
             "ItemCount": false,
             "rate": [
                 false,
@@ -43,7 +45,9 @@
             "ID": 3,
             "NameID": "第4天",
             "QuestType": 7,
-            "ItemID": 201,
+            "ItemID": [
+                201
+            ],
             "ItemCount": false,
             "rate": [
                 false,
@@ -56,7 +60,9 @@
             "ID": 4,
             "NameID": "第5天",
             "QuestType": 7,
-            "ItemID": 201,
+            "ItemID": [
+                201
+            ],
             "ItemCount": false,
             "rate": [
                 false,
@@ -69,7 +75,9 @@
             "ID": 5,
             "NameID": "第6天",
             "QuestType": 7,
-            "ItemID": 201,
+            "ItemID": [
+                201
+            ],
             "ItemCount": false,
             "rate": [
                 false,
@@ -82,7 +90,9 @@
             "ID": 6,
             "NameID": "第7天",
             "QuestType": 7,
-            "ItemID": 201,
+            "ItemID": [
+                201
+            ],
             "ItemCount": false,
             "rate": [
                 false,
@@ -330,9 +340,7 @@
             "NPCJob": 0,
             "NPCFrameRes": "",
             "NPCIcon": "",
-            "NPCFuncList": [
-                0
-            ],
+            "NPCFuncList": [],
             "TiledIcon": "",
             "TiledNPCList": 0,
             "InitNPCFunc": 0,

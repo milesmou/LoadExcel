@@ -8,7 +8,7 @@ export interface Test2_001  {
     ID: number;
     NameID: string;
     QuestType: number;
-    ItemID: number;
+    ItemID: number[];
     ItemCount: boolean;
     rate: boolean[];
     text: string;
