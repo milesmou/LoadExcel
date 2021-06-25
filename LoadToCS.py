@@ -77,7 +77,8 @@ def getValueByType(cellV: str, typeStr: str):
     if typeStr.find("bool") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:
-                arr.append(LoadExcel.IF(v == 1, True, False))
+                if(v != ""):
+                    arr.append(LoadExcel.IF(v == 1, True, False))
         else:
             value = LoadExcel.IF(cellV == 1, True, False)
     elif typeStr.find("int") > -1 or typeStr.find("float") > -1:
@@ -90,7 +91,8 @@ def getValueByType(cellV: str, typeStr: str):
     elif typeStr.find("string") > -1:
         if typeStr.find("[]") > -1:
             for v in strList:
-                arr.append(v)
+                if(v != ""):
+                    arr.append(v)
         else:
             value = cellV
     else:

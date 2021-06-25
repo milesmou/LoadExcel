@@ -12,6 +12,7 @@ export interface Test2_001  {
     ItemCount: boolean;
     rate: boolean[];
     text: string;
+    strArr: string[];
 }
 
 export interface Test2_002  {

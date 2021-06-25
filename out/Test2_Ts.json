@@ -11,7 +11,8 @@
                 false,
                 false
             ],
-            "text": "..."
+            "text": "...",
+            "strArr": []
         },
         "1": {
             "ID": 1,
@@ -24,7 +25,8 @@
                 false,
                 false
             ],
-            "text": "charator_50"
+            "text": "charator_50",
+            "strArr": []
         },
         "2": {
             "ID": 2,
@@ -39,7 +41,8 @@
                 false,
                 false
             ],
-            "text": "charator_51"
+            "text": "charator_51",
+            "strArr": []
         },
         "3": {
             "ID": 3,
@@ -54,7 +57,10 @@
                 false,
                 false
             ],
-            "text": "charator_52"
+            "text": "charator_52",
+            "strArr": [
+                "charator_52"
+            ]
         },
         "4": {
             "ID": 4,
@@ -69,7 +75,11 @@
                 false,
                 false
             ],
-            "text": "charator_53"
+            "text": "charator_53",
+            "strArr": [
+                "charator_53",
+                "22"
+            ]
         },
         "5": {
             "ID": 5,
@@ -84,7 +94,10 @@
                 false,
                 false
             ],
-            "text": "charator_54"
+            "text": "charator_54",
+            "strArr": [
+                "charator_54"
+            ]
         },
         "6": {
             "ID": 6,
@@ -99,7 +112,10 @@
                 false,
                 false
             ],
-            "text": "charator_55"
+            "text": "charator_55",
+            "strArr": [
+                "charator_55"
+            ]
         }
     },
     "Test2_002": {
