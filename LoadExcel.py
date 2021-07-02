@@ -8,6 +8,9 @@ import sys
 excelDict: dict = {}
 outPath: str = os.getcwd()+os.path.sep+"out"+os.path.sep
 
+# Type:字段类型所在行 Key:字段key所在行 Commit:字段批注所在行 DataStart:数据开始的行 (行数从0开始)
+rowNum = {"Type": 1, "Key": 2, "Commit": 3,  "DataStart": 4}
+
 
 def initExcelDict(currPath):
     for path, listDir, listFile in os.walk(currPath):

@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['LoadExcel.py'],
-             pathex=['Y:\\SelfWS\\LoadExcel'],
+             pathex=['\\\\Mac\\Home\\SelfWS\\LoadExcel'],
              binaries=[],
              datas=[],
              hiddenimports=[],

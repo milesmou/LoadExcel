@@ -3,9 +3,6 @@ from xlrd.sheet import Sheet
 import xlrd
 import json
 
-# Key:字段key所在行 Type:字段类型所在行 DataStart:数据开始的行 (行数从0开始)
-rowNum = {"Key": 2, "Type": 1, "DataStart": 4}
-
 
 def Load(excelDict: dict):
     entityHeader: str = "using System.Collections;\nusing System.Collections.Generic;\n\n"
@@ -33,8 +30,9 @@ def readExcel(path: str):
             sName = LoadExcel.upperFirst(sheetName)
             wbDict[sName] = {}
             sheetDict = wbDict[sName]
-            keyList: list = []
             typeList: list = []
+            keyList: list = []
+            commitList: list = []
             sheet: Sheet = workbook.sheet_by_name(sheetName)
             for row in range(sheet.nrows):
                 idStr = ""
@@ -44,11 +42,13 @@ def readExcel(path: str):
                     if(cellType == 2 and cellV % 1 == 0.0):
                         cellV = int(cellV)
                     cellV = str(cellV)
-                    if row == rowNum["Key"]:
-                        keyList.insert(col, cellV)
-                    if row == rowNum["Type"]:
+                    if row == LoadExcel.rowNum["Type"]:
                         typeList.insert(col, cellV)
-                    if row >= rowNum["DataStart"]:
+                    if row == LoadExcel.rowNum["Key"]:
+                        keyList.insert(col, cellV)
+                    if row == LoadExcel.rowNum["Commit"]:
+                        commitList.insert(col, cellV)
+                    if row >= LoadExcel.rowNum["DataStart"]:
                         if col == 0:
                             sheetDict[str(cellV)] = {}
                             idStr = cellV
@@ -62,6 +62,9 @@ def readExcel(path: str):
                     v = typeList[i]
                     if v == "none" or v == "":
                         continue
+                    entityStr += "    /// <summary>\n"
+                    entityStr += "    /// " + commitList[i] + "\n"
+                    entityStr += "    /// <summary>\n"
                     entityStr += "    public " + typeList[i] + " " + keyList[i] + ";\n"
                 entityStr += "}\n\n"
             print("load sheet "+sheetName+" end")
