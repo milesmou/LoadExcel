@@ -19,8 +19,6 @@ export interface Test2_001  {
     rate: boolean[];
     /** 文本 */
     text: string;
-    /** 文本 */
-    strArr: string[];
 }
 
 export interface Test2_002  {
@@ -34,8 +32,6 @@ export interface Test2_002  {
     ItemID: number;
     /** 数量 */
     ItemCount: boolean;
-    /** 倍率(百分位) */
-    rate: boolean[];
 }
 
 export interface NPCList  {
