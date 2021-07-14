@@ -7,8 +7,11 @@
 nodejs + typescript + exceljs + pkg(导出为各系统执行文件)
 
 #### 运行
+安装依赖: npm install
 直接运行: npm start cs|ts  
 打包为执行文件: npm run  pkg
+windows: 双击运行LoadExcelWin.cmd
+macos: 为LoadExcel和LoadExcelMac.sh授权可执行权限,修改LoadExcelMac.sh默认为终端打开,双击运行LoadExcelMac.sh
 
 #### 说明
 1、工具会检测当前目录及子目录所有Excel文件，Excel名字中包含～的文件会被忽略  

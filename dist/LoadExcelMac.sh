@@ -4,6 +4,9 @@
 jsonPath=../assets/resources/data/
 entityPath=../assets/script/game/
 
+Dir=$(dirname $0)
+cd $Dir
+
 ./LoadExcel ts
 
 files=$(ls ./out)
