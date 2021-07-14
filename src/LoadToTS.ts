@@ -27,6 +27,7 @@ export class LoadToTS {
         let sheets = workbook.worksheets;
         let wbDict: { [name: string]: { [key: string]: any } } = {}
         let entityStr: string = ""
+        
         for (const sheet of sheets) {
             console.log("load sheet " + sheet.name + " start")
             let sName = LoadExcel.upperFirst(sheet.name)
@@ -35,11 +36,10 @@ export class LoadToTS {
             let typeList: string[] = []
             let keyList: string[] = []
             let commitList: string[] = []
-            for (let row = 1; row < sheet.rowCount; row++) {
+            for (let row = 1; row <= sheet.rowCount; row++) {
                 let id = ""
-                for (let col = 1; col < sheet.columnCount; col++) {
-                    let value = sheet.getCell(row, col).value;
-                    let cellV = value ? value.toString() : "";
+                for (let col = 1; col <= sheet.columnCount; col++) {
+                    let cellV = sheet.getCell(row, col).toString();
                     if (row == LoadExcel.rowNum.Type) {
                         typeList[col] = cellV;
                     }
@@ -91,7 +91,7 @@ export class LoadToTS {
             } else if (type == "number[]") {
                 result = cellV.split(";").filter(v => v).map(v => LoadExcel.parseNum(v));
             } else {
-                result =  LoadExcel.parseNum(cellV)
+                result = LoadExcel.parseNum(cellV)
             }
         } else if (type.includes("string")) {
             if (type == "string[][]") {
