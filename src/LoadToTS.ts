@@ -1,15 +1,15 @@
-import excel from "exceljs";
+import xlsx from "xlsx"
 import { LoadExcel } from "./LoadExcel";
 
 export class LoadToTS {
 
-    static async load(xlsxs: { [name: string]: string }) {
+    static load(xlsxs: { [name: string]: string }) {
         let entityHeader = "";
         let entityResult = "";
         for (const name in xlsxs) {
             let dataResult: { [name: string]: object } = {}
             entityHeader += "export interface " + name + "   {\n"
-            let wbResult = await this.readExcel(xlsxs[name])
+            let wbResult = this.readExcel(xlsxs[name])
             entityResult += wbResult["entityStr"]
             for (const key in wbResult["wbDict"]) {
                 dataResult[key] = wbResult["wbDict"][key]
@@ -21,25 +21,26 @@ export class LoadToTS {
         LoadExcel.saveData(entityHeader + entityResult, "DataEntity.ts")
     }
 
-    static async readExcel(filePath: string): Promise<{ entityStr: string, wbDict: { [name: string]: { [key: string]: any } } }> {
-        let workbook = new excel.Workbook();
-        await workbook.xlsx.readFile(filePath)
-        let sheets = workbook.worksheets;
-        let wbDict: { [name: string]: { [key: string]: any } } = {}
+    static readExcel(filePath: string): { entityStr: string, wbDict: { [name: string]: { [key: string]: any } } } {
+        let workbook = xlsx.readFile(filePath, { type: "array" });
         let entityStr: string = ""
-        
-        for (const sheet of sheets) {
-            console.log("load sheet " + sheet.name + " start")
-            let sName = LoadExcel.upperFirst(sheet.name)
-            wbDict[sName] = {}
-            let sheetDict = wbDict[sName]
-            let typeList: string[] = []
-            let keyList: string[] = []
-            let commitList: string[] = []
-            for (let row = 1; row <= sheet.rowCount; row++) {
-                let id = ""
-                for (let col = 1; col <= sheet.columnCount; col++) {
-                    let cellV = sheet.getCell(row, col).toString();
+        let wbDict: { [name: string]: { [key: string]: any } } = {}
+        for (const sheetName of workbook.SheetNames) {
+            let sheet = workbook.Sheets[sheetName];
+            let data = xlsx.utils.sheet_to_csv(sheet);
+            let sName = LoadExcel.upperFirst(sheetName);
+            wbDict[sName] = {};
+            let sheetDict = wbDict[sName];
+            let typeList: string[] = [];
+            let keyList: string[] = [];
+            let commitList: string[] = [];
+            let rowsData = data.split("\n");
+            console.log("load sheet " + sName + " start");
+            for (let row = 0; row < rowsData.length; row++) {
+                let id = "";
+                const colsData = rowsData[row].split(",");
+                for (let col = 0; col < colsData.length; col++) {
+                    const cellV = colsData[col];
                     if (row == LoadExcel.rowNum.Type) {
                         typeList[col] = cellV;
                     }
@@ -69,7 +70,7 @@ export class LoadToTS {
                 }
             }
             entityStr += "}\n\n"
-            console.log("load sheet " + sheet.name + " end")
+            console.log("load sheet " + sName + " end")
         }
         return { "entityStr": entityStr, "wbDict": wbDict };
     }

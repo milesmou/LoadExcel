@@ -1,14 +1,14 @@
-import excel from "exceljs";
+import xlsx from "xlsx"
 import { LoadExcel } from "./LoadExcel";
 
 export class LoadToCS {
-    static async load(xlsxs: { [name: string]: string }) {
+    static load(xlsxs: { [name: string]: string }) {
         let entityHeader = "using System.Collections;\nusing System.Collections.Generic;\n\n";
         let entityResult = "";
         for (const name in xlsxs) {
             let dataResult: { [name: string]: object } = {}
             entityHeader += "public class " + name + "   \n{\n"
-            let wbResult = await this.readExcel(xlsxs[name])
+            let wbResult = this.readExcel(xlsxs[name])
             entityResult += wbResult["entityStr"]
             for (const key in wbResult["wbDict"]) {
                 dataResult[key] = wbResult["wbDict"][key]
@@ -20,25 +20,26 @@ export class LoadToCS {
         LoadExcel.saveData(entityHeader + entityResult, "DataEntity.cs")
     }
 
-    static async readExcel(filePath: string): Promise<{ entityStr: string, wbDict: { [name: string]: { [key: string]: any } } }> {
-        let workbook = new excel.Workbook();
-        await workbook.xlsx.readFile(filePath)
-        let sheets = workbook.worksheets;
-        let wbDict: { [name: string]: { [key: string]: any } } = {}
+    static readExcel(filePath: string): { entityStr: string, wbDict: { [name: string]: { [key: string]: any } } } {
+        let workbook = xlsx.readFile(filePath, { type: "array" });
         let entityStr: string = ""
-        for (const sheet of sheets) {
-            console.log("load sheet " + sheet.name + " start")
-            let sName = LoadExcel.upperFirst(sheet.name)
+        let wbDict: { [name: string]: { [key: string]: any } } = {}
+        for (const sheetName of workbook.SheetNames) {
+            let sheet = workbook.Sheets[sheetName];
+            let data = xlsx.utils.sheet_to_csv(sheet);
+            let sName = LoadExcel.upperFirst(sheetName);
             wbDict[sName] = {}
-            let sheetDict = wbDict[sName]
-            let typeList: string[] = []
-            let keyList: string[] = []
-            let commitList: string[] = []
-            for (let row = 1; row < sheet.rowCount; row++) {
-                let id = ""
-                for (let col = 1; col < sheet.columnCount; col++) {
-                    let value = sheet.getCell(row, col).value;
-                    let cellV = value ? value.toString() : "";
+            let sheetDict = wbDict[sName];
+            let typeList: string[] = [];
+            let keyList: string[] = [];
+            let commitList: string[] = [];
+            let rowsData = data.split("\n");
+            console.log("load sheet " + sName + " start")
+            for (let row = 1; row < rowsData.length; row++) {
+                let id = "";
+                const colsData = rowsData[row].split(",");
+                for (let col = 1; col < colsData.length; col++) {
+                    const cellV = colsData[col];
                     if (row == LoadExcel.rowNum.Type) {
                         typeList[col] = cellV;
                     }

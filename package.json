@@ -15,7 +15,7 @@
         "typescript": "^4.3.5"
     },
     "dependencies": {
-        "exceljs": "^4.2.1",
-        "path": "^0.12.7"
+        "path": "^0.12.7",
+        "xlsx": "^0.17.0"
     }
 }

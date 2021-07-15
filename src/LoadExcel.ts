@@ -7,8 +7,8 @@ import { LoadToCS } from "./LoadToCS";
 
 export class LoadExcel {
 
-    /** Type:字段类型所在行 Key:字段key所在行 Commit:字段批注所在行 DataStart:数据开始的行 (行数从1开始) */
-    static rowNum = { "Type": 2, "Key": 3, "Commit": 4, "DataStart": 5 }
+    /** Type:字段类型所在行 Key:字段key所在行 Commit:字段批注所在行 DataStart:数据开始的行 (行数从0开始) */
+    static rowNum = { "Type": 1, "Key": 2, "Commit": 3, "DataStart": 4 }
     /** 导出文件保存路径 */
     static outPath: string = LoadExcel.getCwd() + path.sep + "out" + path.sep
 
