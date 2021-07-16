@@ -14,7 +14,7 @@ windows: 双击运行LoadExcelWin.cmd
 macos: 为LoadExcel和LoadExcelMac.sh授权可执行权限,修改LoadExcelMac.sh默认为终端打开,双击运行LoadExcelMac.sh  
 
 #### 说明
-1、工具会检测当前目录及子目录所有Excel文件，Excel名字中包含～的文件会被忽略  
+1、工具会检测当前目录及子目录所有Excel文件，名字以~开始的excel和sheet都会被忽略  
 2、每个Excel表所有sheet数据会导出在同一个Json文件，文件名使用Excel文件名  
 3、在LoadExcel中配置 Type:字段类型所在行 Key:字段key所在行 Commit:字段批注所在行 DataStart:数据开始的行 (行数从0开始)  
 4、TypeScript数据类型支持：number，string，boolean以及它们的一维二维数组  

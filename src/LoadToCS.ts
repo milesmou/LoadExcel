@@ -25,34 +25,34 @@ export class LoadToCS {
         let entityStr: string = ""
         let wbDict: { [name: string]: { [key: string]: any } } = {}
         for (const sheetName of workbook.SheetNames) {
+            if (sheetName.startsWith("~")) continue;
             let sheet = workbook.Sheets[sheetName];
-            let data = xlsx.utils.sheet_to_csv(sheet);
             let sName = LoadExcel.upperFirst(sheetName);
             wbDict[sName] = {}
             let sheetDict = wbDict[sName];
             let typeList: string[] = [];
             let keyList: string[] = [];
             let commitList: string[] = [];
-            let rowsData = data.split("\n");
+            let rowsData: any[][] = xlsx.utils.sheet_to_json(sheet, { header: 1, defval: "" });
             console.log("load sheet " + sName + " start")
             for (let row = 1; row < rowsData.length; row++) {
                 let id = "";
-                const colsData = rowsData[row].split(",");
+                const colsData = rowsData[row];
                 for (let col = 1; col < colsData.length; col++) {
-                    const cellV = colsData[col];
+                    const cellV = colsData[col].toString();
                     if (row == LoadExcel.rowNum.Type) {
-                        typeList[col] = cellV;
+                        typeList[col] = cellV.replace(/"/g, "");
                     }
                     if (row == LoadExcel.rowNum.Key) {
-                        keyList[col] = cellV;
+                        keyList[col] = cellV.replace(/"/g, "");
                     }
                     if (row == LoadExcel.rowNum.Commit) {
                         commitList[col] = cellV;
                     }
                     if (row >= LoadExcel.rowNum.DataStart) {
-                        if (col == 1 && cellV) {
+                        if (col == 0 && cellV) {
                             sheetDict[cellV] = {}
-                            id = cellV;
+                            id = cellV.replace(/"/g, "");
                         }
                         if (!id || !typeList[col] || typeList[col] == "none" || !keyList[col]) continue;
                         sheetDict[id][keyList[col]] = this.getValueByType(cellV, typeList[col])

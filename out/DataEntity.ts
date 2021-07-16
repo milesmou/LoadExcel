@@ -1,83 +1,89 @@
-export interface Test2_ts   {
-    Test2_001: { [id: string]: Test2_001 };
-    Test2_002: { [id: string]: Test2_002 };
-    NPCList: { [id: string]: NPCList };
+export interface TestBattleKin   {
+    BattleRoles: { [id: string]: BattleRoles };
 }
 
-export interface Test2_001  {
-    /** 第几天 */
-    "ID": number;
-    /** 签到名称 */
-    NameID: string;
-    /** 任务类型 */
-    QuestType: number;
-    /** 道具ID */
-    ItemID: number[];
-    /** 数量 */
-    ItemCount: boolean;
-    /** 倍率(百分位) */
-    rate: boolean[];
-    /** 文本 */
-    text: string;
-    /** 文本 */
-    strArr: string[];
-    /** 第几天 */
-    ID1: number;
-    /** 签到名称 */
-    NameID1: string;
-    /** 任务类型 */
-    QuestType1: number;
-    /** 道具ID */
-    ItemID1: number[];
-    /** 数量 */
-    ItemCount1: boolean;
-    /** 倍率(百分位) */
-    rate1: boolean[];
-    /** 文本 */
-    text1: string;
-    /** 文本 */
-    strArr1: string[];
-}
-
-export interface Test2_002  {
-    /** 第几天 */
-    "ID": number;
-    /** 签到名称 */
-    NameID: string;
-    /** 任务类型 */
-    QuestType: number;
-    /** 道具ID */
-    ItemID: number;
-    /** 数量 */
-    ItemCount: boolean;
-    /** 倍率(百分位) */
-    rate: boolean[];
-}
-
-export interface NPCList  {
-    /** NPCID */
-    NPCID: number;
-    /** 所属地点 */
-    NPCofTiled: number;
-    /** NPC类型 */
-    NPCType: number;
-    /** NPC名字 */
-    NPCName: number;
-    /** NPC职业 */
-    NPCJob: number;
-    /** 底框资源名称 */
-    NPCFrameRes: string;
-    /** NPC竖条立绘 */
-    NPCIcon: string;
-    /** NPC功能列表 */
-    NPCFuncList: number[];
-    /** 支线任务 */
-    TiledIcon: string;
-    /** 隐藏显示方案 */
-    TiledNPCList: number;
-    /** 默认对白方案 */
-    InitNPCFunc: number;
-    /** NPC固定对白 */
-    TiledTipsWord: number;
+export interface BattleRoles  {
+    /** 侠客id */
+    ID: number;
+    /** 名字 */
+    Name: string;
+    /** 形象ID */
+    RolePic: string;
+    /** 技能名字 */
+    SkillName: string;
+    /** 等级 */
+    Level: number;
+    /** 调用元素 */
+    Element: number;
+    /** 普攻 */
+    EommonAtk: string;
+    /** 技能 */
+    SkillAtk: string;
+    /** 生命 */
+    Hp: number;
+    /** 物理攻击 */
+    attack_damage: number;
+    /** 火焰攻击 */
+    fire_damage: number;
+    /** 冰霜攻击 */
+    ice_damage: number;
+    /** 毒素攻击 */
+    poison_damage: number;
+    /** 神圣攻击 */
+    holy_damage: number;
+    /** 暗影攻击 */
+    dark_damage: number;
+    /** 雷电攻击 */
+    Lightning_damage: number;
+    /** 物理抗性 */
+    attack_defense: number;
+    /** 火焰抗性 */
+    fire_defense: number;
+    /** 冰霜抗性 */
+    ice_defense: number;
+    /** 毒素抗性 */
+    poison_defense: number;
+    /** 神圣抗性 */
+    holy_defense: number;
+    /** 暗影抗性 */
+    dark_defense: number;
+    /** 雷电抗性 */
+    Lightning_defense: number;
+    /** 速度 */
+    speed: number;
+    /** 精准% */
+    accurate: number;
+    /** 闪避% */
+    dodge: number;
+    /** 暴击% */
+    crit: number;
+    /** 韧性% */
+    tenacity: number;
+    /** 暴击伤害 */
+    critDamage: number;
+    /** 真实伤害 */
+    realDamage: number;
+    /** 击中生命恢复 */
+    hitAddHp: number;
+    /** 击杀生命恢复 */
+    killAddHp: number;
+    /** 战斗生命恢复 */
+    battleAddHp: number;
+    /** 行动生命恢复 */
+    actionAddHp: number;
+    /** 免伤 */
+    finalReduced: number;
+    /** 治疗加成 */
+    increasedHealEff: number;
+    /** 满怒 */
+    fullAnger: number;
+    /** 被击加怒 */
+    beHitAddAnger: number;
+    /** 攻击加怒 */
+    hitAddAnger: number;
+    /** 击杀加怒 */
+    killAddAnger: number;
+    /** 战斗加怒 */
+    battleAddAnger: number;
 }
 
