@@ -1,7 +1,7 @@
 # LoadExcel
 
 #### 介绍
-一个导表工具，可以将Excel表导出为json数据，并同时导出数据表interface文件方便TypeScript和C#环境使用。 
+一个导表工具，可以将Excel表导出为json数据，并同时导出数据表class文件方便TypeScript和C#环境使用。 
 
 #### 环境
 nodejs + typescript + xlsx + pkg(导出为各系统执行文件)

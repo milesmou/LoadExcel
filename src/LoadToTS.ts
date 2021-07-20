@@ -60,7 +60,7 @@ export class LoadToTS {
                     }
                 }
             }
-            entityStr += "export interface " + sName + "  {\n"
+            entityStr += "export class " + sName + "  {\n"
             if (keyList.length == typeList.length) {
                 for (let i = 0; i < typeList.length; i++) {
                     let type = typeList[i]
