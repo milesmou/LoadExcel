@@ -7,24 +7,24 @@ export class LoadToTS {
         let entityHeader = "";
         let entityResult = "";
         for (const name in xlsxs) {
-            let dataResult: { [name: string]: object } = {}
-            entityHeader += "export interface " + name + "   {\n"
-            let wbResult = this.readExcel(xlsxs[name])
-            entityResult += wbResult["entityStr"]
+            let dataResult: { [name: string]: object } = {};
+            entityHeader += "export interface " + name + "   {\n";
+            let wbResult = this.readExcel(xlsxs[name]);
+            entityResult += wbResult["entityStr"];
             for (const key in wbResult["wbDict"]) {
-                dataResult[key] = wbResult["wbDict"][key]
-                entityHeader += ("    " + key + ": { [id: string]: " + key + " };\n")
+                dataResult[key] = wbResult["wbDict"][key];
+                entityHeader += ("    " + key + ": { [id: string]: " + key + " };\n");
             }
-            entityHeader += "}\n\n"
-            LoadExcel.saveData(JSON.stringify(dataResult), name + ".json")
+            entityHeader += "}\n\n";
+            LoadExcel.saveData(JSON.stringify(dataResult), name + ".json");
         }
-        LoadExcel.saveData(entityHeader + entityResult, "DataEntity.ts")
+        LoadExcel.saveData(entityHeader + entityResult, "DataEntity.ts");
     }
 
     static readExcel(filePath: string): { entityStr: string, wbDict: { [name: string]: { [key: string]: any } } } {
         let workbook = xlsx.readFile(filePath, { type: "array" });
-        let entityStr: string = ""
-        let wbDict: { [name: string]: { [key: string]: any } } = {}
+        let entityStr: string = "";
+        let wbDict: { [name: string]: { [key: string]: any } } = {};
         for (const sheetName of workbook.SheetNames) {
             if (sheetName.startsWith("~")) continue;
             let sheet = workbook.Sheets[sheetName];
@@ -52,25 +52,26 @@ export class LoadToTS {
                     }
                     if (row >= LoadExcel.rowNum.DataStart) {
                         if (col == 0 && cellV) {
-                            sheetDict[cellV] = {}
+                            sheetDict[cellV] = {};
                             id = cellV.replace(/"/g, "");
                         }
-                        if (!id || !typeList[col] || typeList[col] == "none" || !keyList[col]) continue;
-                        sheetDict[id][keyList[col]] = this.getValueByType(cellV, typeList[col])
+                        let type = typeList[col];
+                        let key = keyList[col];
+                        if (!id || !type || type == "none" || !key) continue;
+                        sheetDict[id][key] = this.getValueByType(cellV, type);
                     }
                 }
             }
-            entityStr += "export class " + sName + "  {\n"
-            if (keyList.length == typeList.length) {
-                for (let i = 0; i < typeList.length; i++) {
-                    let type = typeList[i]
-                    if (!type || type == "none") continue;
-                    entityStr += "    /** " + commitList[i] + " */\n"
-                    entityStr += "    " + keyList[i] + ": " + typeList[i] + ";\n"
-                }
+            entityStr += "export class " + sName + "  {\n";
+            for (let i = 0; i < typeList.length; i++) {
+                let type = typeList[i];
+                let key = keyList[i];
+                if (!type || type == "none" || !key) continue;
+                entityStr += "    /** " + commitList[i] + " */\n";
+                entityStr += "    " + key + ": " + type + ";\n";
             }
-            entityStr += "}\n\n"
-            console.log("load sheet " + sName + " end")
+            entityStr += "}\n\n";
+            console.log("load sheet " + sName + " end");
         }
         return { "entityStr": entityStr, "wbDict": wbDict };
     }

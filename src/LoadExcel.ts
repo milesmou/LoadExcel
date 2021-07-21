@@ -8,9 +8,9 @@ import { LoadToCS } from "./LoadToCS";
 export class LoadExcel {
 
     /** Type:字段类型所在行 Key:字段key所在行 Commit:字段批注所在行 DataStart:数据开始的行 (行数从0开始) */
-    static rowNum = { "Type": 0, "Key": 1, "Commit": 2, "DataStart": 3 }
+    static rowNum = { "Type": 0, "Key": 1, "Commit": 2, "DataStart": 3 };
     /** 导出文件保存路径 */
-    static outPath: string = LoadExcel.getCwd() + path.sep + "out" + path.sep
+    static outPath: string = LoadExcel.getCwd() + path.sep + "out" + path.sep;
 
     static getCwd() {
         let execPath = process.execPath;
