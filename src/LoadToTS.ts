@@ -81,11 +81,11 @@ export class LoadToTS {
         let result: any;
         if (type.includes("boolean")) {
             if (type == "boolean[][]") {
-                result = cellV.split(";").filter(v => v).map(v => v.split(",").filter(v => v).map(v => v == "1" ? true : false));
+                result = cellV.split(";").filter(v => v).map(v => v.split(",").filter(v => v).map(v => v == "0" || v == "" ? false : true));
             } else if (type == "boolean[]") {
-                result = cellV.split(";").filter(v => v).map(v => v == "1" ? true : false);
+                result = cellV.split(";").filter(v => v).map(v => v == "0" || v == "" ? false : true);
             } else {
-                result = cellV == "1" ? true : false;
+                result = cellV == "0" || cellV == "" ? false : true;
             }
         } else if (type.includes("number")) {
             if (type == "number[][]") {

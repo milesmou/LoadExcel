@@ -82,11 +82,11 @@ export class LoadToCS {
         let result: any;
         if (type.includes("bool")) {
             if (type == "bool[][]") {
-                result = cellV.split(";").filter(v => v).map(v => v.split(",").filter(v => v).map(v => v == "1" ? true : false));
+                result = cellV.split(";").filter(v => v).map(v => v.split(",").filter(v => v).map(v => v == "0" || v == "" ? false : true));
             } else if (type == "bool[]") {
-                result = cellV.split(";").filter(v => v).map(v => v == "1" ? true : false);
+                result = cellV.split(";").filter(v => v).map(v => v == "0" || v == "" ? false : true);
             } else {
-                result = cellV == "1" ? true : false;
+                result = cellV == "0" || cellV == "" ? false : true;
             }
         } else if (type.includes("int") || type.includes("float")) {
             if (type == "int[][]" || type == "float[][]") {
