@@ -19,11 +19,11 @@ CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ./dist/
 SET CGO_ENABLED=0  
 SET GOOS=darwin  
 SET GOARCH=amd64  
-go build -o ./dist/LoadExcel  
+go build -o ./dist/    
 SET CGO_ENABLED=0  
 SET GOOS=linux  
 SET GOARCH=amd64  
-go build -o ./dist/LoadExcel  
+go build -o ./dist/  
 
 #### 注意
 GOOS：目标平台的操作系统（darwin、freebsd、linux、windows）  
