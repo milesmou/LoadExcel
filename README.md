@@ -26,10 +26,9 @@ SET GOARCH=amd64
 go build -o ./dist/LoadExcel  
 
 #### 注意
-GOOS：目标平台的操作系统（darwin、freebsd、linux、windows）
-GOARCH：目标平台的体系架构（386、amd64、arm）
-交叉编译不支持CGO所以要禁用它
-macos: 为LoadExcel和LoadExcelMac.sh授权可执行权限,修改LoadExcelMac.sh默认为终端打开,双击运行LoadExcelMac.sh  
+GOOS：目标平台的操作系统（darwin、freebsd、linux、windows）  
+GOARCH：目标平台的体系架构（386、amd64、arm）  
+交叉编译不支持CGO所以要禁用它  
 
 ### 运行  
 windows: 双击运行LoadExcelWin.cmd  
