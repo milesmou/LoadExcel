@@ -8,12 +8,12 @@ go 1.16 + github.com/360EntSecGroup-Skylar/excelize
 
 ### 编译
 #### Mac下编译Linux和Windows64位可执行程序  
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./dist/LoadExcel.exe  
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./dist/LoadExcel  
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./dist/  
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./dist/  
 
 #### Linux下编译Mac和Windows64位可执行程序  
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./dist/LoadExcel.exe  
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ./dist/LoadExcel  
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./dist/  
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ./dist/  
 
 #### Windows下编译Mac和Linux64位可执行程序  
 SET CGO_ENABLED=0  
