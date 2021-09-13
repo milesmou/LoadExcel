@@ -2,13 +2,12 @@ package utils
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
 const outPath = "./out/"
@@ -42,7 +41,7 @@ func ClearOut() {
 
 func SaveDataWithMap(value map[string]interface{}, fileName string) {
 	bf := bytes.NewBuffer([]byte{})
-	jsonEncoder := jsoniter.NewEncoder(bf)
+	jsonEncoder := json.NewEncoder(bf)
 	jsonEncoder.SetEscapeHTML(false)
 	jsonEncoder.Encode(value)
 	SaveDataWithString(bf.String(), fileName)
